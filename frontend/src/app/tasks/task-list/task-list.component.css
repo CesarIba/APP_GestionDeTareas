@@ -1,0 +1,64 @@
+.task-container {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+.add-task, .filter-tasks {
+  margin-bottom: 15px;
+}
+
+.add-task input, .filter-tasks select {
+  padding: 8px;
+  margin-right: 5px;
+  width: 60%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.task-table th, .task-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.task-table th {
+  background-color: #f4f4f4;
+}
+
+.pending {
+  color: red;
+  font-weight: bold;
+}
+
+.completed {
+  color: green;
+  font-weight: bold;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.delete-btn {
+  background-color: red;
+  margin-left: 5px;
+}
+
+.delete-btn:hover {
+  background-color: darkred;
+}

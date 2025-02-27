@@ -10,13 +10,19 @@ Este es el backend de la aplicación APP_GestionDeTareas, desarrollado en .NET C
 
 Abrir una terminal en la carpeta `backend` y ejecuta:
 1. Restaurar dependencias:
+	```bash
    dotnet restore
+   ```
    
 2. Aplicar Migraciones para generar la base de datos SQLite  
+   	```bash
    dotnet ef database update
+   ```
    
 3. Ejecutar el backend   
+   	```bash
    dotnet run
+   ```
    
 4. Probar la API
 	API disponible en: https://localhost:5000/swagger

@@ -9,9 +9,13 @@ Este es el frontend de la aplicación Task App, desarrollado en Angular.
 ## 🔧 Instalación y Ejecución
 
 1. Instalar dependencias:
+   ```bash
    npm install
+   ```
 
-2. Ejecutar el frontend:  
+2. Ejecutar el frontend: 
+   ```bash 
    ng serve
+   ```
 
 3. La aplicación estará disponible en: http://localhost:4200
