@@ -8,16 +8,20 @@ using BackGestionTareas.Controllers;
 using BackGestionTareas.Models;
 using BackGestionTareas.Services;
 using System.Threading;
+using FluentValidation;
+using FluentValidation.Results;
 
 public class TareasControllerTests
 {
     private readonly Mock<ITareaService> _mockService;
+    private readonly Mock<IValidator<TareaDto>> _mockValidator;
     private readonly TareasController _controller;
 
     public TareasControllerTests()
     {
         _mockService = new Mock<ITareaService>();
-        _controller = new TareasController(_mockService.Object);
+        _mockValidator = new Mock<IValidator<TareaDto>>();
+        _controller = new TareasController(_mockService.Object, _mockValidator.Object);
     }
 
     [Fact]
@@ -56,22 +60,25 @@ public class TareasControllerTests
         _mockService.Setup(service => service.GetTareaById(1)).ReturnsAsync((TareaDto)null);
 
         // Act
-        var resultado = await _controller.GetTareaById(1);
+        var resultado = await _controller.GetTareaById(999);
 
         // Assert
-        resultado.Result.Should().BeOfType<NotFoundResult>();
+        resultado.Result.Should().BeOfType<NotFoundObjectResult>();
     }
 
     [Fact]
     public async Task PostTarea_DeberiaRetornarCreatedAtAction()
     {
         // Arrange
-        var nuevaTarea = new TareaDto { Nombre = "Nueva Tarea" };
-        _mockService.Setup(service => service.AddTarea(nuevaTarea)).Returns(Task.CompletedTask);
+        var nuevaTarea = new TareaDto { Nombre = "Nueva Tarea", Estado = false };
+        _mockValidator.Setup(v => v.ValidateAsync(It.IsAny<TareaDto>(), default)).ReturnsAsync(new ValidationResult());
+        _mockService.Setup(service => service.AddTarea(It.IsAny<TareaDto>()))
+            .ReturnsAsync((TareaDto tarea) => new TareaDto { Id = 2, Nombre = tarea.Nombre, Estado = tarea.Estado });
+
 
         // Act
         var resultado = await _controller.PostTarea(nuevaTarea);
-
+        resultado.Should().NotBeNull();
         // Assert
         resultado.Result.Should().BeOfType<CreatedAtActionResult>();
     }

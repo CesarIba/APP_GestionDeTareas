@@ -1,8 +1,10 @@
 ﻿using BackGestionTareas.Models;
 using BackGestionTareas.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BackGestionTareas.Services
@@ -11,7 +13,7 @@ namespace BackGestionTareas.Services
     {
         Task<List<TareaDto>> GetAllTareas();
         Task<TareaDto> GetTareaById(int id);
-        Task AddTarea(TareaDto tarea);
+        Task<TareaDto> AddTarea(TareaDto tarea);
         Task UpdateTarea(int id, UpdateTareaDto completada);
         Task DeleteTarea(int id);
     }
@@ -24,7 +26,23 @@ namespace BackGestionTareas.Services
         }
         public async Task<List<TareaDto>> GetAllTareas() => await _tareaRepository.GetAllTareas();
         public async Task<TareaDto> GetTareaById(int id) => await _tareaRepository.GetTareaById(id);
-        public async Task AddTarea(TareaDto tarea) => await _tareaRepository.AddTarea(tarea);
+        public async Task<TareaDto> AddTarea(TareaDto nuevaTarea)
+        {
+            var tarea = new TareaDto
+            {
+                Nombre = nuevaTarea.Nombre,
+                Estado = nuevaTarea.Estado
+            };
+
+            await _tareaRepository.AddTarea(tarea);
+
+            return new TareaDto
+            {
+                Id = tarea.Id,
+                Nombre = tarea.Nombre,
+                Estado = tarea.Estado
+            };
+        }
         public async Task UpdateTarea(int id, UpdateTareaDto  completada)
         {
             var tarea = await _tareaRepository.GetTareaById(id);

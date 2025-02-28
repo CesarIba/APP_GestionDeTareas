@@ -4,3 +4,7 @@
 
 /backend/.vs/BackGestionTareas/CopilotIndices/17.13.430.18484
 /backend/.vs
+/backend/BackGestionTareas/bin
+/backend/BackGestionTareas/obj
+/backend/Test/bin
+/backend/Test/obj

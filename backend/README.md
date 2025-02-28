@@ -3,7 +3,7 @@
 Este es el backend de la aplicación APP_GestionDeTareas, desarrollado en .NET CORE 
 
 ## Requisitos
-- [.NET 5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0)
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/5.0)
 - [SQLite](https://www.sqlite.org/download.html) (Opcional, .NET maneja SQLite internamente)
 
 ## 🔧 Instalación y Ejecución

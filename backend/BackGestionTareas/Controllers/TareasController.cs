@@ -1,10 +1,10 @@
-﻿using BackGestionTareas.Context;
-using BackGestionTareas.Models;
+﻿using BackGestionTareas.Models;
 using BackGestionTareas.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,15 +15,30 @@ namespace BackGestionTareas.Controllers
     public class TareasController : ControllerBase
     {
         private readonly ITareaService _tareaService;
+        private readonly IValidator<TareaDto> _validator;
 
-        public TareasController(ITareaService tareaService)
+        public TareasController(ITareaService tareaService, IValidator<TareaDto> validator)
         {
             _tareaService = tareaService;
+            _validator = validator;
         }
         [HttpPost]
-        public async Task<ActionResult<TareaDto>> PostTarea([FromBody] TareaDto tarea)
+        public async Task<ActionResult<TareaDto>> PostTarea([FromBody] TareaDto nuevaTarea)
         {
-            await _tareaService.AddTarea(tarea);
+            var validationResult = await _validator.ValidateAsync(nuevaTarea);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => new
+                {
+                    propertyName = e.PropertyName,
+                    errorMessage = e.ErrorMessage
+                });
+
+                return BadRequest(new { message = "Errores de validación", errors });
+            }
+
+            var tarea = await _tareaService.AddTarea(nuevaTarea);
             return CreatedAtAction(nameof(GetTareaById), new { id = tarea.Id }, tarea);
         }
 
@@ -38,7 +53,8 @@ namespace BackGestionTareas.Controllers
         public async Task<ActionResult<TareaDto>> GetTareaById(int id)
         {
             var tarea = await _tareaService.GetTareaById(id);
-            if (tarea == null) return NotFound();
+            if (tarea == null) 
+                return NotFound($"No se encontro la tarea");
 
             return Ok(tarea);
         }
@@ -55,6 +71,25 @@ namespace BackGestionTareas.Controllers
         {
             await _tareaService.DeleteTarea(id);
             return NoContent();
-        }        
+        }
+
+        [HttpGet("error")]
+        public IActionResult LanzarError()
+        {
+            throw new Exception("Este es un error de prueba.");
+        }
+
+        [HttpPost("validar")]
+        public IActionResult Validar([FromBody] TareaDto dto, IValidator<TareaDto> validator)
+        {
+            var validationResult = validator.Validate(dto);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
+            return Ok("Validación exitosa");
+        }
     }
 }
