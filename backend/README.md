@@ -8,7 +8,7 @@ Este es el backend de la aplicación APP_GestionDeTareas, desarrollado en .NET C
 
 ## 🔧 Instalación y Ejecución
 
-Abrir una terminal en la carpeta `backend` y ejecuta:
+Abrir una terminal en la carpeta `.\backend\BackGestionTareas\` y ejecuta:
 1. Restaurar dependencias:
 	```bash
    dotnet restore

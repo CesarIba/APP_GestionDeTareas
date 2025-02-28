@@ -30,7 +30,8 @@ namespace BackGestionTareas.Controllers
         [HttpGet]
         public async Task<ActionResult<List<TareaDto>>> GetTareas()
         {
-            return await _tareaService.GetAllTareas();
+            var tareas = await _tareaService.GetAllTareas();
+            return Ok(tareas);
         }
 
         [HttpGet("{id}")]
@@ -39,7 +40,7 @@ namespace BackGestionTareas.Controllers
             var tarea = await _tareaService.GetTareaById(id);
             if (tarea == null) return NotFound();
 
-            return tarea;
+            return Ok(tarea);
         }
 
         [HttpPatch("{id}")]
