@@ -1,9 +1,9 @@
 # APP_GestionDeTareas
 
-Aplicación para la gestión de tareas con un backend en .NET 5 y un frontend en Angular.
+Aplicación para la gestión de tareas con un backend en .NET 8 y un frontend en Angular.
 
 ## Estructura
-- `/backend` - Código fuente del backend (.NET 5)
+- `/backend` - Código fuente del backend (.NET 8)
 - `/frontend` - Código fuente del frontend (Angular)
 
 ## Instalación
